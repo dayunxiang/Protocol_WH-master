@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <dlls>
+    <!--数据协议-->
+    <dll type="data" enabled="true" protocltype="none">
+      <basedir>D:\tool\SVN\HydrologySVN\develop\trunk\bin\Debug</basedir>
+      <filename>Protocol.Data.Lib.dll</filename>
+      <name>辽宁数据协议</name>
+      <classes>
+        <class name="Protocol.Data.Lib.UBatchTrans"        tag="IUBatch"    iname="Protocol.Data.Interface.IDown" />
+        <class name="Protocol.Data.Lib.FlashBatchTrans"    tag="IFlash"     iname="Protocol.Data.Interface.IFlashBatch" />
+        <class name="Protocol.Data.Lib.DownParser"         tag="IDown"      iname="Protocol.Data.Interface.IUBatch"/>
+        <class name="Protocol.Data.Lib.UpParser"           tag="IUp"        iname="Protocol.Data.Interface.IUp"/>
+        <class name="Protocol.Data.Lib.SoilParser"           tag="ISoil"        iname="Protocol.Data.Interface.ISoil"/>
+      </classes>
+      <coms>
+        <com>1</com>
+        <com>2</com>
+      </coms>
+      <ports>
+        <port PortNumber="5002" AutoStart="true" />
+      </ports>
+    </dll>
+
+    <dll type="data" enabled="true" protocltype="none">
+      <basedir>D:\tool\SVN\HydrologySVN\develop\trunk\bin\Debug</basedir>
+      <filename>Protocol.Data.Lib.dll</filename>
+      <name>云南数据协议</name>
+      <classes>
+        <class name="Protocol.Data.Lib.UBatchTrans"        tag="IUBatch"    iname="Protocol.Data.Interface.IDown" />
+        <class name="Protocol.Data.Lib.FlashBatchTrans"    tag="IFlash"     iname="Protocol.Data.Interface.IFlashBatch" />
+        <class name="Protocol.Data.Lib.DownParser"         tag="IDown"      iname="Protocol.Data.Interface.IUBatch"/>
+        <class name="Protocol.Data.Lib.UpParser"           tag="IUp"        iname="Protocol.Data.Interface.IUp"/>
+        <class name="Protocol.Data.Lib.SoilParser"           tag="ISoil"        iname="Protocol.Data.Interface.ISoil"/>
+      </classes>
+      <coms>
+        <com>3</com>
+      </coms>
+      <ports>
+        <port PortNumber="9002" AutoStart="true" />
+      </ports>
+    </dll>
+
+    <!--信道协议-->
+    <dll type="channel" enabled="true" protocltype="gsm">
+      <basedir>D:\tool\SVN\HydrologySVN\develop\trunk\bin\Debug</basedir>
+      <filename>Protocol.Channel.Gsm.dll</filename>
+      <name>GSM协议</name>
+      <classes>
+        <class name="Protocol.Channel.Gsm.GsmParser"       tag="IGsm"     iname="Protocol.Channel.Interface.IGsm" />
+      </classes>
+      <coms>
+        <com>1</com>
+      </coms>
+    </dll>
+
+    <dll type="channel" enabled="true" protocltype="gprs">
+      <basedir>D:\tool\SVN\HydrologySVN\develop\trunk\bin\Debug</basedir>
+      <filename>Protocol.Channel.Gprs.dll</filename>
+      <name>四信GPRS协议</name>
+      <classes>
+        <class name="Protocol.Channel.Gprs.GprsParser"      tag="IGprs"   iname="Protocol.Channel.Interface.IGprs"/>
+      </classes>
+      <ports>
+        <port PortNumber="5002" AutoStart="true" />
+      </ports>
+    </dll>
+
+    <dll type="channel" enabled="true" protocltype="gprs">
+      <basedir>C:\Users\codergaoming\Desktop\Hydro05\Hydro\bin\Debug</basedir>
+      <filename>Protocol.Channel.HDGprs.dll</filename>
+      <name>宏电GPRS协议</name>
+      <classes>
+        <class name="Protocol.Channel.Gprs.HDGprsParser" tag="IHDGprs" iname="Protocol.Channel.Interface.IHDGprs"/>
+      </classes>
+      <ports>
+        <port PortNumber="9002" AutoStart="true" />
+      </ports>
+    </dll>
+
+    <dll type="channel" enabled="true" protocltype="beidou_normal">
+      <basedir>D:\tool\SVN\HydrologySVN\develop\trunk\bin\Debug</basedir>
+      <filename>Protocol.Channel.Beidou.dll</filename>
+      <name>北斗卫星普通终端协议</name>
+      <classes>
+        <class name="Protocol.Channel.Beidou.BeidouNormal" tag="IBeidou_normal"  iname="Protocol.Channel.Interface.IBeidouNormal"/>
+      </classes>
+      <coms>
+        <com>2</com>
+      </coms>
+    </dll>
+
+    <dll type="channel" enabled="true" protocltype="beidou_normal">
+      <basedir>D:\tool\SVN\HydrologySVN\develop\trunk\bin\Debug</basedir>
+      <filename>Protocol.Channel.Beidou.dll</filename>
+      <name>北斗卫星普通终端协议2</name>
+      <classes>
+        <class name="Protocol.Channel.Beidou.BeidouNormal" tag="IBeidou_normal"  iname="Protocol.Channel.Interface.IBeidouNormal"/>
+      </classes>
+      <coms>
+        <com>4</com>
+      </coms>
+    </dll>
+
+
+    <dll type="channel" enabled="true" protocltype="beidou_500">
+      <basedir>D:\tool\SVN\HydrologySVN\develop\trunk\bin\Debug</basedir>
+      <filename></filename>
+      <name>北斗卫星指挥机500型</name>
+      <classes>
+        <class name="" tag="IBeidou" iname="IBeidou_500"/>
+      </classes>
+      <coms>
+        <com>3</com>
+      </coms>
+    </dll>
+
+  </dlls>
+</root>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="GetSMSInbox">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="spId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="spPwd" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSMSInboxResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSMSInboxResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="string" nillable="true" type="s:string" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetSMSInboxSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSMSInbox" />
+  </wsdl:message>
+  <wsdl:message name="GetSMSInboxSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSMSInboxResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSMSInboxHttpGetIn">
+    <wsdl:part name="spId" type="s:string" />
+    <wsdl:part name="spPwd" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetSMSInboxHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="GetSMSInboxHttpPostIn">
+    <wsdl:part name="spId" type="s:string" />
+    <wsdl:part name="spPwd" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetSMSInboxHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:portType name="SMSServiceSoap">
+    <wsdl:operation name="GetSMSInbox">
+      <wsdl:input message="tns:GetSMSInboxSoapIn" />
+      <wsdl:output message="tns:GetSMSInboxSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="SMSServiceHttpGet">
+    <wsdl:operation name="GetSMSInbox">
+      <wsdl:input message="tns:GetSMSInboxHttpGetIn" />
+      <wsdl:output message="tns:GetSMSInboxHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="SMSServiceHttpPost">
+    <wsdl:operation name="GetSMSInbox">
+      <wsdl:input message="tns:GetSMSInboxHttpPostIn" />
+      <wsdl:output message="tns:GetSMSInboxHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SMSServiceSoap" type="tns:SMSServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetSMSInbox">
+      <soap:operation soapAction="http://tempuri.org/GetSMSInbox" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="SMSServiceSoap12" type="tns:SMSServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetSMSInbox">
+      <soap12:operation soapAction="http://tempuri.org/GetSMSInbox" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="SMSServiceHttpGet" type="tns:SMSServiceHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="GetSMSInbox">
+      <http:operation location="/GetSMSInbox" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="SMSServiceHttpPost" type="tns:SMSServiceHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="GetSMSInbox">
+      <http:operation location="/GetSMSInbox" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SMSService">
+    <wsdl:port name="SMSServiceSoap" binding="tns:SMSServiceSoap">
+      <soap:address location="http://223.100.11.11:7080/SMSService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="SMSServiceSoap12" binding="tns:SMSServiceSoap12">
+      <soap12:address location="http://223.100.11.11:7080/SMSService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="SMSServiceHttpGet" binding="tns:SMSServiceHttpGet">
+      <http:address location="http://223.100.11.11:7080/SMSService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="SMSServiceHttpPost" binding="tns:SMSServiceHttpPost">
+      <http:address location="http://223.100.11.11:7080/SMSService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

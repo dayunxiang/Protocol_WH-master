@@ -1,0 +1,250 @@
+﻿syntax = "proto3";
+
+package grpcservices;
+
+service gRPCServices {
+	rpc GetFeature(DownRequest) returns (DownConf) {}
+	rpc GetDownConf(stream DownRequest) returns (stream DownConf) {}
+	rpc GetBatchMsg(BatchRequest) returns (BatchMsg){}
+	rpc ListBatchData(BatchRequest) returns (stream BatchData){}
+	rpc GetBatchTrans(stream BatchRequest) returns (stream BatchData) {}
+	rpc GetDtuList(Subcenter) returns (DtuList){}
+	rpc BatchTime(StationList) returns (TruList){}
+}
+
+message BatchRequest {
+	string stationId = 1;
+	bool reportType = 2;
+	bool transType = 3;
+	string startTime = 4;
+	string endTime = 5;
+	string gprsid = 6;
+}
+
+message BatchMsg {
+	string msg = 1;
+	bool NotOL = 2;
+	bool TimeOut = 3;
+}
+
+message BatchData {
+	string stationId = 1;
+	bool stationType = 2;
+	string time = 3;
+	string data = 4;
+	bool NotOL = 5;
+	bool End = 6;
+	bool TimeOut = 7;
+}
+
+message StationList {
+	repeated string id = 1;
+}
+
+message TruList {
+	repeated bool tru = 1;
+}
+
+message Subcenter {
+	string subcenterdId = 1;
+}
+
+message DtuList {
+	repeated Dtu dtu = 1;
+}
+
+message Dtu {
+	string subcenterId = 1;
+	string subcenterName = 2;
+	string stationName = 3;
+	string stationId = 4;
+	string gprsId = 5;
+	string gsmNum = 6;
+	string ipAddr = 7;
+	string connTime = 8;
+	string refreshTime = 9;
+	string state = 10;
+	string port = 11;
+	string stationType = 12;
+}
+
+message DownRequest {
+	string stationId = 1;
+	string cmds = 2;
+	string gprsNum = 3;
+	bool isSet = 4;
+}
+
+message DownConf {
+		/// <summary>
+        /// 03 时钟
+        /// </summary>
+        string clock = 1;
+
+        /// <summary>
+        /// 04 常规状态
+        /// </summary>
+		enum NormalState {
+			GPRS_State = 0;
+			GSM_State = 1;
+		}
+        NormalState normalState = 2;
+
+        /// <summary>
+        /// 05 电压
+        /// </summary>
+        double voltage = 3;
+
+        /// <summary>
+        /// 08 站号
+        /// </summary>
+        string stationCmdID = 4;
+
+        /// <summary>
+        /// 14 对时选择
+        /// </summary>
+		enum TimeChoice {
+			AdjustTime = 0;
+			NoAdjustTime = 1;
+		}
+        TimeChoice timeChoice = 5;
+
+        /// <summary>
+        /// 24 定时段次
+        /// </summary>
+		enum TimePeriod {
+			One = 0;
+			Two = 1;
+			Four = 2;
+			Six = 3;
+			Eight = 4;
+			Twelve = 5;
+			TwentyFour = 6;
+			FourtyEight = 7;
+		}
+        TimePeriod timePeriod = 6;
+
+        /// <summary>
+        /// 20 工作状态
+        /// </summary>
+		enum WorkStatus {
+			Debug = 0;
+			Normal = 1;
+			DoubleAddress = 2;
+		}
+        WorkStatus workStatus = 7;
+
+        /// <summary>
+        /// 19 版本号
+        /// </summary>
+        string versionNum = 8;
+
+        /// <summary>
+        /// 27 主备信道
+        /// </summary>
+		enum ChannelType{
+			GPRS = 0;
+			GSM = 1;
+			BeiDou = 2;
+			PSTN = 3;
+			None = 4;
+			VHF = 5;
+			BeidouNormal = 6;
+			Beidou500 = 7;
+		}
+        ChannelType mainChannel = 9;
+
+		ChannelType viceChannel = 10;
+
+        /// <summary>
+        /// 28 SIM卡号
+        /// </summary>
+        string teleNum = 11;
+
+        /// <summary>
+        /// 37 振铃次数
+        /// </summary>
+        double ringsNum = 12;
+
+        /// <summary>
+        /// 49 目的地手机号码
+        /// </summary>
+        string destPhoneNum = 13;
+
+        /// <summary>
+        /// 15 终端机号
+        /// </summary>
+        string terminalNum = 14;
+
+        /// <summary>
+        /// 09 响应波束
+        /// </summary>
+        string respBeam = 15;
+
+        /// <summary>
+        /// 16 平均时间
+        /// </summary>
+        double avegTime = 16;
+
+        /// <summary>
+        /// 10 雨量加报值
+        /// </summary>
+        double rainPlusReportedValue = 17;
+
+        /// <summary>
+        /// 62 KC
+        /// </summary>
+        string kC = 18;
+
+        /// <summary>
+        /// 02 雨量
+        /// </summary>
+        double rain = 19;
+
+        /// <summary>
+        /// 12 水位
+        /// </summary>
+        double water = 20;
+
+        /// <summary>
+        /// 06 水位加报值
+        /// </summary>
+        double waterPlusReportedValue = 21;
+
+        /// <summary>
+        /// 11 采集段次选择
+        /// </summary>
+		enum SelectCollectionParagraphs {
+			FiveOrSix = 0;
+			TenOrTwelve = 1;
+		}
+        SelectCollectionParagraphs select = 22;
+
+        /// <summary>
+        /// 07 测站类型
+        /// </summary>
+		enum StationType {
+			ERainFall =0;		//	雨量站
+			ERiverWater = 1;    //	水位站
+			EHydrology = 2;		//	水文站
+			ESoil = 3;			//  04墒情站
+			ESoilRain = 4;		//  05墒情雨量站
+			ESoilWater = 5;     //  06，16墒情水位站
+			ESoilHydrology = 6;	//  07，17墒情水文站
+		}
+        StationType stationType = 23;
+
+        /// <summary>
+        /// 54  用户名
+        /// </summary>
+        string userName = 24;
+
+        /// <summary>
+        /// 55  测站名
+        /// </summary>
+        string stationName = 25;
+
+	    bool isOL = 26;
+
+		bool TRU = 27;
+}

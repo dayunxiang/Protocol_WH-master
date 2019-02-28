@@ -1,0 +1,1 @@
+packages\Grpc.Tools.1.6.1\tools\windows_x86\protoc.exe -IgrpcServices --csharp_out grpcServices  grpcServices\grpcServices.proto --grpc_out grpcServices --plugin=protoc-gen-grpc=packages\Grpc.Tools.1.6.1\tools\windows_x86\grpc_csharp_plugin.exe

@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{44AA2A2C-9B8F-486A-8DDD-E0DC3746B0A7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Protocol.Channel.Gsm</RootNamespace>
+    <AssemblyName>Protocol.Channel.Gsm</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Entity, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\bin\Debug\Entity.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="GSMParser.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Protocol.Channel.Gprs\Protocol.Channel.Gprs.csproj">
+      <Project>{1BC753C3-EA32-45F5-B5C3-964DB7BC7155}</Project>
+      <Name>Protocol.Channel.Gprs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Protocol.Channel.Interface\Protocol.Channel.Interface.csproj">
+      <Project>{5608a2f2-3852-4b97-9e4e-5cf054e81326}</Project>
+      <Name>Protocol.Channel.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Protocol.Data.Interface\Protocol.Data.Interface.csproj">
+      <Project>{D8A6FC21-B411-4E95-87ED-982BE8654252}</Project>
+      <Name>Protocol.Data.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Protocol.Data.Lib\Protocol.Data.Lib.csproj">
+      <Project>{4fbf1719-a19c-4cbb-91e5-0e1a421dbdbc}</Project>
+      <Name>Protocol.Data.Lib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Protocol.Manager\Protocol.Manager.csproj">
+      <Project>{5de5aa83-1f6d-45fb-be29-cd88235a2701}</Project>
+      <Name>Protocol.Manager</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
