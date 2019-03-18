@@ -244,7 +244,7 @@ namespace Protocol.Channel.Transparen
 
 
         public TransparenDll() {
-            onlineTimer= new System.Timers.Timer(5000);
+            onlineTimer= new System.Timers.Timer(2000);
             m_channelType = EChannelType.None;
             cores = System.Environment.ProcessorCount;
             channel2Data = new Channle2Data();
