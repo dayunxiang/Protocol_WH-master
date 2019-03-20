@@ -22,9 +22,9 @@ namespace Protocol.Data.GY
             //sb.Append(String.Format("{0:D2}", Int32.Parse(sid.Trim())));//  添加中心站地址
             //sb.Append(String.Format("{0:D4}", Int32.Parse(sid.Trim())));//  添加密码
             //sb.Append(String.Format("{0:D2}", Int32.Parse(sid.Trim())));//  添加功能码
-            sb.Append("00");//  添加中心站地址
+           
             sb.Append(String.Format("{0:D10}", Int32.Parse(sid.Trim())));//  添加遥测站地址 
-            
+            sb.Append("00");//  添加中心站地址
             sb.Append("1234");//  添加密码
             sb.Append("45");
             int dataLength = 16;
@@ -121,10 +121,10 @@ namespace Protocol.Data.GY
             //sb.Insert(19, String.Format("{0:D1}", 8));//  添加报文标识
             //length = 10;
             //Insert(20, String.Format("{0:X3}", length));//  添加报文长度
-            sb.Append("\u0003");
+            
             string dataMsg = sb.ToString();
             string crcMsg = CRC.ToCRC16(dataMsg, false);
-            string resut = dataMsg + crcMsg;
+            string resut = dataMsg + "\u0005" +crcMsg;
             return resut;
         }
 

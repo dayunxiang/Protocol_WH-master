@@ -236,7 +236,7 @@ namespace Protocol.Data.GY
                                         string flag = "1" + "0" + length;
                                         string serialNumber = body.Substring(0, 4);
                                         string time = body.Substring(4, 12);
-                                        string dataMessage = meaageFlag + centerAddr + stationAddr + passAndFunc + flag + "\u0002" + serialNumber + time + "\u0003";
+                                        string dataMessage = meaageFlag + centerAddr + stationAddr + passAndFunc + flag + "\u0002" + serialNumber + time + "\u0004";
                                         string CRCMessage = CRC.ToCRC16(dataMessage, false);
                                         string downMessage = dataMessage + CRCMessage;
                                         ret[router.sessionid] = downMessage;

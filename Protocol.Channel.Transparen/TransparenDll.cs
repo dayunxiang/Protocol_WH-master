@@ -525,6 +525,10 @@ namespace Protocol.Channel.Transparen
             bool sendSuccess = false;
             TSession session = null;
             uint sessionID = uint.Parse(getSessionIdbyStationid(stationId));
+
+            sendSuccess = this.SendData(sessionID, datagram);
+
+
             try
             {
                 foreach (int key in _sessionTable.Keys)

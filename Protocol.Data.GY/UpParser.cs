@@ -240,6 +240,10 @@ namespace Protocol.Data.GY
                 {
                     type = EStationType.ERainFall;
                 }
+                if(stationTypeString == "K")
+                {
+                    type = EStationType.ERiverWater;
+                }
                 //删除站点类型
                 data = data.Substring(1);
 
@@ -253,7 +257,9 @@ namespace Protocol.Data.GY
                 //Decimal dataAccuracy;
                 //Decimal dayRain;
 
-                Nullable<Decimal> diffRain = null;
+                
+                Nullable<Decimal> periidRain = null;
+                Nullable<Decimal> currentRain = null;
                 Nullable<Decimal> totalRain = null;
                 Nullable<Decimal> waterStage = null;
                 Nullable<Decimal> voltage = null;
@@ -449,7 +455,7 @@ namespace Protocol.Data.GY
                             string diffRainString = endStrList[1];
                             try
                             {
-                                diffRain = Decimal.Parse(diffRainString);
+                               currentRain  = Decimal.Parse(diffRainString);
                             }
                             catch (Exception e)
                             {
@@ -537,7 +543,7 @@ namespace Protocol.Data.GY
                             {
                                 DateTime tmpDate = dataTime.AddMinutes(5 * k);
                                 oneData.Time = tmpDate;
-                                oneData.DiffRain = rainList[k];
+                                oneData.PeriodRain = rainList[k];
                                 oneData.Water = waterList[k];
                                 datas.Add(DeepClone(oneData));
 
@@ -554,7 +560,7 @@ namespace Protocol.Data.GY
                                     {
                                         DateTime tmpDate = dataTime.AddMinutes(5 * k);
                                         oneData.Time = tmpDate;
-                                        oneData.DiffRain = rainList[k];
+                                        oneData.PeriodRain = rainList[k];
                                         datas.Add(DeepClone(oneData));
                                     }
                             }
@@ -573,12 +579,12 @@ namespace Protocol.Data.GY
                             }
                         }
                         //普通报文处理
-                        if (diffRain != null || totalRain != null ||voltage != null)
+                        if (currentRain != null || totalRain != null ||voltage != null || waterStage != null)
                         {
                             CReportData oneData = new CReportData();
                             oneData.Time = dataTime;
                             oneData.Rain = totalRain;
-                            oneData.DiffRain = diffRain;
+                            oneData.CurrentRain = currentRain;
                             oneData.Water = waterStage;
                             oneData.Voltge = voltage;
                             datas.Add(DeepClone(oneData));
