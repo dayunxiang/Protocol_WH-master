@@ -16,9 +16,13 @@ namespace Protocol.Data.Interface
 
         String BuildQuery(string sid, IList<EDownParamGY> cmds, EChannelType ctype);
 
+
+
         /// <summary>
         /// 设置命令
         /// </summary>
+        /// 
+        string BuildSet(string sid, IList<EDownParamGY> cmds, CDownConfGY down, EChannelType ctype);
         String BuildSet(string sid, IList<EDownParam> cmds, CDownConf down, EChannelType ctype);
 
         /// <summary>

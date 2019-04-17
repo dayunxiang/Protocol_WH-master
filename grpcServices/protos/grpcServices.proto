@@ -1,15 +1,31 @@
-﻿syntax = "proto3";
+syntax = "proto3";
 
 package grpcservices;
 
 service gRPCServices {
-	rpc GetFeature(DownRequest) returns (DownConf) {}
-	rpc GetDownConf(stream DownRequest) returns (stream DownConf) {}
-	rpc GetBatchMsg(BatchRequest) returns (BatchMsg){}
-	rpc ListBatchData(BatchRequest) returns (stream BatchData){}
-	rpc GetBatchTrans(stream BatchRequest) returns (stream BatchData) {}
+	rpc GetDownConf(DownRequest) returns (DownConf) {}
+	rpc ListBatchData(BatchRequest) returns (BatchList){}
 	rpc GetDtuList(Subcenter) returns (DtuList){}
 	rpc BatchTime(StationList) returns (TruList){}
+	rpc BatchRead(ReadRequest) returns (ReadDatas){}
+}
+
+message DownRequest {
+	string stationId = 1;
+	string cmds = 2;
+	string gprsNum = 3;
+	bool isSet = 4;
+}
+
+message ReadRequest {
+	enum readType {
+		readStoredWater = 0;
+		readRealWater = 1;
+		readRain = 2;
+		readSoil = 3;
+	}
+	readType rType = 1;
+	StationList sList = 2;
 }
 
 message BatchRequest {
@@ -21,28 +37,17 @@ message BatchRequest {
 	string gprsid = 6;
 }
 
-message BatchMsg {
-	string msg = 1;
-	bool NotOL = 2;
-	bool TimeOut = 3;
-}
-
-message BatchData {
-	string stationId = 1;
-	bool stationType = 2;
-	string time = 3;
-	string data = 4;
-	bool NotOL = 5;
-	bool End = 6;
-	bool TimeOut = 7;
-}
-
 message StationList {
-	repeated string id = 1;
+	repeated string ids = 1;
 }
 
 message TruList {
-	repeated bool tru = 1;
+	repeated TruData truData = 1;
+}
+
+message TruData {
+	string stationId = 1;
+	bool tru = 2;
 }
 
 message Subcenter {
@@ -68,11 +73,36 @@ message Dtu {
 	string stationType = 12;
 }
 
-message DownRequest {
+message BatchList {
 	string stationId = 1;
-	string cmds = 2;
-	string gprsNum = 3;
-	bool isSet = 4;
+	repeated BatchData bdata = 2;
+	bool isOL = 3;
+	bool notTimeOut = 4;
+	string rawInfo = 5;
+	enum stationType{
+			rainStation = 0;
+			waterStation = 1;
+		}
+	stationType sType = 6;
+	enum transType{
+		byhour = 0;
+		byday = 1;
+	}
+	transType tType = 7;
+}
+
+message BatchData {
+	string batchTime = 1;
+	string batchValue = 2;
+}
+
+message ReadDatas {
+	repeated ReadData rData = 1;
+}
+
+message ReadData {
+	string stationId = 1;
+	string data = 2;
 }
 
 message DownConf {

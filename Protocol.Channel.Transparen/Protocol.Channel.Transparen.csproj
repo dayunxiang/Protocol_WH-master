@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TCPHelper.cs" />
     <Compile Include="TransparenDll.cs" />
     <Compile Include="TSession.cs" />
   </ItemGroup>

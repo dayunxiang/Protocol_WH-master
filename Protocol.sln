@@ -29,8 +29,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Protocol.Channel.WebGsm", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Protocol.Channel.Interface", "Protocol.Channel.Interface\Protocol.Channel.Interface.csproj", "{5608A2F2-3852-4B97-9E4E-5CF054E81326}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "grpcServices", "grpcServices\grpcServices.csproj", "{3916F9A9-1A01-4728-A3FC-6D4B11B6572B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Protocol.Channel.Transparen", "Protocol.Channel.Transparen\Protocol.Channel.Transparen.csproj", "{EF290C05-9C2F-46E6-A85D-3DDD64C3E2F8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Protocol.Channer.Router", "Protocol.Channer.Router\Protocol.Channer.Router.csproj", "{0FED1E45-42DE-4D99-B490-326EDA8AC452}"
@@ -151,18 +149,6 @@ Global
 		{5608A2F2-3852-4B97-9E4E-5CF054E81326}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{5608A2F2-3852-4B97-9E4E-5CF054E81326}.Release|x86.ActiveCfg = Release|Any CPU
 		{5608A2F2-3852-4B97-9E4E-5CF054E81326}.Release|x86.Build.0 = Release|Any CPU
-		{3916F9A9-1A01-4728-A3FC-6D4B11B6572B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3916F9A9-1A01-4728-A3FC-6D4B11B6572B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3916F9A9-1A01-4728-A3FC-6D4B11B6572B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{3916F9A9-1A01-4728-A3FC-6D4B11B6572B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{3916F9A9-1A01-4728-A3FC-6D4B11B6572B}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{3916F9A9-1A01-4728-A3FC-6D4B11B6572B}.Debug|x86.Build.0 = Debug|Any CPU
-		{3916F9A9-1A01-4728-A3FC-6D4B11B6572B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3916F9A9-1A01-4728-A3FC-6D4B11B6572B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3916F9A9-1A01-4728-A3FC-6D4B11B6572B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{3916F9A9-1A01-4728-A3FC-6D4B11B6572B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{3916F9A9-1A01-4728-A3FC-6D4B11B6572B}.Release|x86.ActiveCfg = Release|Any CPU
-		{3916F9A9-1A01-4728-A3FC-6D4B11B6572B}.Release|x86.Build.0 = Release|Any CPU
 		{EF290C05-9C2F-46E6-A85D-3DDD64C3E2F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EF290C05-9C2F-46E6-A85D-3DDD64C3E2F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF290C05-9C2F-46E6-A85D-3DDD64C3E2F8}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU

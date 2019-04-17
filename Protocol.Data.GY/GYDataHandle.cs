@@ -128,6 +128,7 @@ namespace Protocol.Data.GY
 
                     //2.解析上行报文
                     CReportStruct report = new CReportStruct();
+                    CDownConfGY downConf = new CDownConfGY();
                     IUp upParser = new UpParser();
                     
                     
@@ -191,6 +192,7 @@ namespace Protocol.Data.GY
             if(ascOrASCII == "ASCII")
             {
                 CReportStruct report = new CReportStruct();
+                CDownConfGY downConf = new CDownConfGY();
                 IUp upParser = new UpParser();
                 string data = string.Empty;
                 byte[] inputBytes = router.rawData;
@@ -224,7 +226,8 @@ namespace Protocol.Data.GY
                                     string header = oneDataList[0];
                                     string funcCode = header.Substring(16, 2);
                                     string body = oneDataList[1];
-                                    if (funcCode == "30" || funcCode == "31" || funcCode == "32" || funcCode == "33" || funcCode == "34" || funcCode == "35")
+                                    if (funcCode == "30" || funcCode == "31" || funcCode == "32" || funcCode == "33" || funcCode == "34" || funcCode == "35" 
+                                        || funcCode == "45" || funcCode == "46" || funcCode == "47" || funcCode == "48" || funcCode == "49")
                                     {
                                         #region 根据header的内容进行回复 000011223344123430004D
                                         string meaageFlag = messageStr.Substring(0, 1);
@@ -233,10 +236,10 @@ namespace Protocol.Data.GY
                                         string passAndFunc = header.Substring(12, 6);
                                         int dataLength = 16;
                                         string length = Convert.ToString(dataLength, 16);
-                                        string flag = "1" + "0" + length;
+                                        string flag = "8" + "0" + length;
                                         string serialNumber = body.Substring(0, 4);
                                         string time = body.Substring(4, 12);
-                                        string dataMessage = meaageFlag + centerAddr + stationAddr + passAndFunc + flag + "\u0002" + serialNumber + time + "\u0004";
+                                        string dataMessage = meaageFlag + stationAddr + centerAddr  + passAndFunc + flag + "\u0002" + serialNumber + time + "\u0004";
                                         string CRCMessage = CRC.ToCRC16(dataMessage, false);
                                         string downMessage = dataMessage + CRCMessage;
                                         ret[router.sessionid] = downMessage;
@@ -273,15 +276,25 @@ namespace Protocol.Data.GY
                                             case EMessageType.ETest:
                                                 rtype = "测试报";
                                                 break;
+                                            default:
+                                                break;
                                         }
                                         sendOrRecvMsgEventArgs.Msg = String.Format("{0,-10}   ", rtype) + ondData;
                                         Debug.WriteLine(ondData);
                                         sendOrRecvMsgEventArgs.Description = "接收";
                                         sendOrRecvMsgEventArgsList.Add(sendOrRecvMsgEventArgs);
-
-                                        upEventArgs.Value = report;
-                                        upEventArgs.RawData = ondData;
-                                        upEventArgsList.Add(upEventArgs);
+                                        if(report.Type == "1G")
+                                        {
+                                            upEventArgs.Value = report;
+                                            upEventArgs.RawData = ondData;
+                                            upEventArgsList.Add(upEventArgs);
+                                        }else if(report.Type == "1S")
+                                        {
+                                            downEventArgs.rpValue = report;
+                                            downEventArgs.RawData = ondData;
+                                            downEventArgsList.Add(downEventArgs);
+                                        }
+                                        
                                     }
                                 }
                             }

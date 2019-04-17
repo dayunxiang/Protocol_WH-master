@@ -451,10 +451,10 @@ namespace Protocol.Channel.Transparen
         }
 
         /// <summary>
-        ///  对 ID 号的 session 发送包信息
+        ///  发送下行指令
         /// </summary>
         /// <param name="sessionID"></param>
-        public bool SendData(uint sessionID, string datagram)
+        public bool SendDownData(uint sessionID, string datagram)
         {
             bool sendSuccess = false;
 
@@ -499,7 +499,21 @@ namespace Protocol.Channel.Transparen
                     {
                         //byte[] data = Encoding.ASCII.GetBytes(datagram);  // 获得数据字节数组
                         //TODO
-                        byte[] data = hexStringToByte(datagram);
+                        string hexString = TCPHelper.ascii2Hex(datagram);
+                        string param = "";
+                        string[] hexArr = hexString.Split(' ');
+                        for(int i = 0; i < hexArr.Length; i++)
+                        {
+                            if(hexArr[i].Length == 1)
+                            {
+                                param = param + "0" + hexArr[i];
+                            }else if(hexArr[i].Length ==2)
+                            {
+                                param = param + hexArr[i];
+                            }
+                        }
+                        //param = "013030313132323333343430303132333434353830313002303030303139303332313130303630350537383041";
+                        byte[] data = hexStringToByte(param);
                         session.ClientSocket.BeginSend(data, 0, data.Length, SocketFlags.None, EndSendData, session);
                         sendSuccess = true;
                     }
@@ -519,16 +533,17 @@ namespace Protocol.Channel.Transparen
             return sendSuccess;
         }
 
-
-        public bool SendData(string  stationId, string datagram)
+        /// <summary>
+        /// 回复上行接收确认标志
+        /// </summary>
+        /// <param name="sessionID"></param>
+        /// <param name="datagram"></param>
+        /// <returns></returns>
+        public bool SendData(uint sessionID, string datagram)
         {
             bool sendSuccess = false;
+
             TSession session = null;
-            uint sessionID = uint.Parse(getSessionIdbyStationid(stationId));
-
-            sendSuccess = this.SendData(sessionID, datagram);
-
-
             try
             {
                 foreach (int key in _sessionTable.Keys)
@@ -569,7 +584,26 @@ namespace Protocol.Channel.Transparen
                     {
                         //byte[] data = Encoding.ASCII.GetBytes(datagram);  // 获得数据字节数组
                         //TODO
-                        byte[] data = hexStringToByte(datagram);
+                        //byte[] data = System.Text.Encoding.ASCII.GetBytes(datagram);
+                        //System.IAsyncResult a = session.ClientSocket.BeginSend(data, 0, data.Length, SocketFlags.None, EndSendData, session);
+                        //sendSuccess = true;
+                        //string aa = "01 1B";
+                        //string bb = TCPHelper.HexStringToASCII(aa);
+                        string hexString = TCPHelper.ascii2Hex(datagram);
+                        string param = "";
+                        string[] hexArr = hexString.Split(' ');
+                        for (int i = 0; i < hexArr.Length; i++)
+                        {
+                            if (hexArr[i].Length == 1)
+                            {
+                                param = param + "0" + hexArr[i];
+                            }
+                            else if (hexArr[i].Length == 2)
+                            {
+                                param = param + hexArr[i];
+                            }
+                        }
+                        byte[] data = hexStringToByte(param);
                         session.ClientSocket.BeginSend(data, 0, data.Length, SocketFlags.None, EndSendData, session);
                         sendSuccess = true;
                     }
@@ -586,6 +620,16 @@ namespace Protocol.Channel.Transparen
                 InvokeMessage(datagram, "发送");
             }
 
+            return sendSuccess;
+        }
+
+
+        public bool SendData(string  stationId, string datagram)
+        {
+            bool sendSuccess = false;
+            //TSession session = null;
+            uint sessionID = uint.Parse(getSessionIdbyStationid(stationId));
+            sendSuccess = this.SendDownData(sessionID, datagram);
             return sendSuccess;
         }
         #endregion
@@ -823,15 +867,15 @@ namespace Protocol.Channel.Transparen
                                 }
                                 catch { }
                             }
-                            else if (CheckSameClientIP(client))  // 已存在该 IP 地址
-                            {
-                                try
-                                {
-                                    client.Shutdown(SocketShutdown.Both);
-                                    client.Close();
-                                }
-                                catch { }
-                            }
+                            //else if (CheckSameClientIP(client))  // 已存在该 IP 地址
+                            //{
+                            //    try
+                            //    {
+                            //        client.Shutdown(SocketShutdown.Both);
+                            //        client.Close();
+                            //    }
+                            //    catch { }
+                            //}
                             else
                             {
                                 TSession session = new TSession(client);
@@ -1058,7 +1102,6 @@ namespace Protocol.Channel.Transparen
             DateTime refreshTime = session.LastDataReceivedTime;
             byte[] ReceiveBuffer = session.ReceiveBuffer;
             byte[] dataByteList = new byte[receivedSize];
-
             for (int i = 0; i < receivedSize; i++)
             {
                 dataByteList[i] = ReceiveBuffer[i];
@@ -1104,7 +1147,8 @@ namespace Protocol.Channel.Transparen
             router.dataLength = receivedSize;
             resMap = channel2Data.commonHandle(router, "transparent");
 
-          // 接收回执
+            
+            #region 接收回执
             if(resMap["RET"] != null)
             {
                 List<Dictionary<string, string>> retList = (List<Dictionary<string,string>>) resMap["RET"];
@@ -1123,7 +1167,8 @@ namespace Protocol.Channel.Transparen
                     }
                   }
             }
-            // 报文日志书写
+            #endregion
+            #region 报文日志书写
             if (resMap["SORMEA"] != null)
             {
                 List<SendOrRecvMsgEventArgs> sendOrRecvMsgEventArgsList = (List<SendOrRecvMsgEventArgs>)resMap["SORMEA"];
@@ -1136,8 +1181,8 @@ namespace Protocol.Channel.Transparen
 
                 }
             }
-                
-           
+            #endregion
+            #region 上行数据
             if (resMap["UEA"] != null)
             {
                 List<UpEventArgs> upEventArgsList = (List<UpEventArgs>)resMap["UEA"];
@@ -1146,22 +1191,49 @@ namespace Protocol.Channel.Transparen
                     foreach(UpEventArgs upEventArgs in upEventArgsList)
                     {
                         upEventArgs.Value.ChannelType = EChannelType.TCP;
-                        //upEventArgs.Value.flagId = "1234";
                         upEventArgs.Value.ListenPort = TcpSocketPort.ToString();
-
-                        //写日志
-                        //string temp1= "定时报";
-                        //InvokeMessage("  gprs号码:  " + "1234" + String.Format("  {0,-10}   ", temp1) + upEventArgs.RawData, "接收");
 
                         //返回报文数据到主程序
                         if (this.UpDataReceived != null)
-                            this.UpDataReceived.Invoke(null, upEventArgs);
+                            if(upEventArgs.Value.ReportType==EMessageType.EAdditional || upEventArgs.Value.ReportType == EMessageType.EHour ||
+                                upEventArgs.Value.ReportType == EMessageType.ETimed || upEventArgs.Value.ReportType == EMessageType.EUinform)
+                            {
+                                this.UpDataReceived.Invoke(null, upEventArgs);
+                            }else if(upEventArgs.Value.ReportType == EMessageType.EMannual || upEventArgs.Value.ReportType== EMessageType.Manual)
+                            {
+                                //TODO
+                                //this.DownDataReceived(null, upEventArgs);
+                                //返回到下行报文
+                            }else if(upEventArgs.Value.ReportType == EMessageType.Batch)
+                            {
+                                //TODO
+                                //批量传输报文
+                            }
                     }
                 }
-
+            }
+            #endregion
+            #region 下行报文
+            if (resMap["DEA"] != null)
+            {
+                List<DownEventArgs> downEventArgsList = (List<DownEventArgs>)resMap["DEA"];
+                if (downEventArgsList != null && downEventArgsList.Count >= 1)
+                {
+                    foreach (DownEventArgs downEventArgs in downEventArgsList)
+                    {
+                        downEventArgs.rpValue.ChannelType = EChannelType.TCP;
+                        downEventArgs.rpValue.ListenPort = TcpSocketPort.ToString();
+                        if (this.DownDataReceived != null)
+                        {
+                            this.DownDataReceived(null, downEventArgs);
+                        }
+                    }
+                }
             }
 
-          }
+            #endregion
+
+        }
 
         /// <summary>
         /// 检查客户端状态（扫描方式，若长时间无数据，则断开）

@@ -68,6 +68,12 @@ namespace Protocol.Data.Lib
             }
             throw new Exception("信道协议未编写！");
         }
+
+        public string BuildSet(string sid, IList<EDownParamGY> cmds, CDownConfGY down, EChannelType ctype)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// 设置指令设置
         /// </summary>
@@ -122,7 +128,7 @@ namespace Protocol.Data.Lib
                     case EDownParam.KC: sb.Append(down.KC); break;
                     case EDownParam.RainPlusReportedValue: sb.Append(String.Format("{0:D2}", (int)down.RainPlusReportedValue.Value)); break;
                     case EDownParam.Rain: sb.Append(String.Format("{0:D4}", (int)down.Rain.Value)); break;
-                    case EDownParam.Water: sb.Append(String.Format("{0:D6}", (int)down.Water.Value)); break;
+                    case EDownParam.Water: sb.Append(String.Format("{0:D6}", (int)down.StorageWater.Value)); break;
                     case EDownParam.WaterPlusReportedValue: sb.Append(String.Format("{0:D2}", (int)down.WaterPlusReportedValue.Value)); break;
                     case EDownParam.SelectCollectionParagraphs: sb.Append(ProtocolMaps.SelectCollectionParagraphs4ProtoMap.FindValue(down.SelectCollectionParagraphs.Value)); break;
                     case EDownParam.StationType: sb.Append(ProtocolHelpers.StationType2ProtoStr_set(down.StationType.Value)); break;
@@ -228,7 +234,7 @@ namespace Protocol.Data.Lib
                             case EDownParam.Rain: downConf.Rain = Decimal.Parse(info); break;
                             //  单位为米    case EDownParam.Water: downConf.Water = (Decimal.Parse(info) * (Decimal)0.01); break;
                             //  默认单位为厘米
-                            case EDownParam.Water: downConf.Water = Decimal.Parse(info); break;
+                            case EDownParam.Water: downConf.StorageWater = Decimal.Parse(info); break;
                             case EDownParam.WaterPlusReportedValue: downConf.WaterPlusReportedValue = Decimal.Parse(info); break;
                             case EDownParam.SelectCollectionParagraphs: downConf.SelectCollectionParagraphs = ProtocolMaps.SelectCollectionParagraphs4ProtoMap.FindKey(info); break;
                             case EDownParam.StationType:
